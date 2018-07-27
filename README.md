@@ -1,5 +1,8 @@
 # rest-api-coding-test
-Create a REST API that allows us to filter `Holiday Offers` from a upstream `xml service`
+
+## Task
+
+Create a REST API that allows us to retrieve `Holiday Offers` from a upstream `xml service` and filter them by a set of criteria.
 
 For the purpose of this test your service should call below url to retrieve the `Holiday Offers`
 http://87.102.127.86:8100/search/searchoffers.dll?page=SEARCH&platform=WEB&depart=LGW%7CSTN%7CLHR%7CLCY%7CSEN%7CLTN&countryid=1&regionid=4&areaid=9&resortid=0&depdate=15%2F08%2F2018&flex=0&adults=2&children=0&duration=7
@@ -15,14 +18,14 @@ Each `Holiday Offer` element should look like the below:
        Hotelsupplier="You+Travel" Type="DP"/>
 ````
 
-Key attributes to filter the offers by:
+#### Key attributes to filter the offers by:
 - `Sellprice` - The price of the holiday
 - `Starrating` - The star rating of the hotel
 - `Outbounddep` - The outward bound flight DateTime
 - `Inbounddep` - The inward bound flight DateTime
 
 
-Your REST API should have:
+### Your REST API should have:
 #### Query Parameters
   - *earliest_departure_time* - The earliest `Time` of departure flight (Note that this is Time rather than DateTime)
   - *earliest_return_time* - The latest `Time` of return flight
@@ -32,7 +35,7 @@ Your REST API should have:
   
 #### Response 
 Must be in JSON format
-The response should contain :
+Must contain :
   - A summary field containing
     - The most expensive offer price
     - The cheapest offer price
