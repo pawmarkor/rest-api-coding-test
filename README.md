@@ -27,11 +27,11 @@ Each `Holiday Offer` element should look like the below:
 
 ### Your REST API should have:
 #### Query Parameters
-  - *earliest_departure_time* - The earliest `Time` of departure flight (Note that this is Time rather than DateTime)
-  - *earliest_return_time* - The latest `Time` of return flight
-  - *max_price* - The maximum acceptable price for the `Holiday Offer`
-  - *min_price* - The minimum acceptable price for the `Holiday Offer`
-  - *star_rating* - The minimum star rating for the hotel in the `Holiday Offer`
+  - *earliest_departure_time* - Filters the offers by the earliest `Time` of departure flight (Note that this is Time rather than DateTime)
+  - *earliest_return_time* - Filters the offers by the latest `Time` of return flight
+  - *max_price* - Filters the offers by maximum price
+  - *min_price* - Filters the offers by minimum price
+  - *star_rating* - Filters the offers by thee minimum star rating
   
 #### Response 
 Must be in JSON format
