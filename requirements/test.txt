@@ -1,0 +1,4 @@
+-r base.txt
+
+pylama==7.4.3
+pytest-cov==2.5.1

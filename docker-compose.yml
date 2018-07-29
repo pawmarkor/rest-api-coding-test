@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  test:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile_test
+    command:
+      bash -c "pytest --cov-config=../coveragerc.ini --cov=."
+
