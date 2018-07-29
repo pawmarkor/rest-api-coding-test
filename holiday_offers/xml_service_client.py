@@ -1,10 +1,12 @@
 import urllib
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, date
 from decimal import Decimal
 from dataclasses import dataclass
+from typing import List
 
 import xmltodict
+import requests
 
 
 @dataclass
@@ -35,17 +37,60 @@ class Offer:
     sellprice: Decimal
 
 
+@dataclass
+class SearchContext:
+    departure_codes: List[str]
+    country_id: int
+    region_id: int
+    area_id: int
+    resort_id: int
+    departure_date: date
+    flex: bool
+    number_of_adults: int
+    number_of_children: int
+    duration: int
+
+
+class ServiceClientError(Exception):
+    pass
+
+
 class ServiceClient:
-    DATETIME_FORMAT = '%d/%m/%Y %H:%M'
+    DATE_FORMAT = '%d/%m/%Y'
+    DATETIME_FORMAT = f'{DATE_FORMAT} %H:%M'
+    API_URL = 'http://87.102.127.86:8100/search/searchoffers.dll'
 
     @classmethod
-    def get_holiday_offers(cls):
-        raw_data = cls._retrieve_holiday_from_service()
+    def get_holiday_offers(cls, search_context: SearchContext):
+        raw_data = cls._retrieve_offers_from_service(search_context)
         return cls._parse_offers(raw_data)
 
-    @staticmethod
-    def _retrieve_holiday_from_service():
-        raise NotImplementedError
+    @classmethod
+    def _retrieve_offers_from_service(cls, search_context: SearchContext):
+        response = requests.get(
+            cls.API_URL,
+            params={
+                'page': 'SEARCH',
+                'platform': 'WEB',
+                'depart': '|'.join(search_context.departure_codes),
+                'countryid': search_context.country_id,
+                'regionid': search_context.region_id,
+                'areaid': search_context.area_id,
+                'resortid': search_context.resort_id,
+                'depdate': search_context.departure_date.strftime(
+                    cls.DATE_FORMAT
+                ),
+                'flex': 1 if search_context.flex else 0,
+                'adults': search_context.number_of_adults,
+                'children': search_context.number_of_children,
+                'duration': search_context.duration,
+            }
+        )
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            raise ServiceClientError()
+        return response.text
 
     @classmethod
     def _parse_offers(cls, data: dict):
