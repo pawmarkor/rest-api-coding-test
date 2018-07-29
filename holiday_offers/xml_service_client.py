@@ -62,11 +62,11 @@ class ServiceClient:
 
     @classmethod
     def get_holiday_offers(cls, search_context: SearchContext):
-        raw_data = cls._retrieve_offers_from_service(search_context)
-        return cls._parse_offers(raw_data)
+        raw_data = cls._retrieve_service_offers(search_context)
+        return cls._parse_service_offers(raw_data)
 
     @classmethod
-    def _retrieve_offers_from_service(cls, search_context: SearchContext):
+    def _retrieve_service_offers(cls, search_context: SearchContext):
         response = requests.get(
             cls.API_URL,
             params={
@@ -93,7 +93,7 @@ class ServiceClient:
         return response.text
 
     @classmethod
-    def _parse_offers(cls, data: dict):
+    def _parse_service_offers(cls, data: dict):
         def parse_types(offer):
             typed_fields = defaultdict(list)
             for field, field_type in Offer.__annotations__.items():

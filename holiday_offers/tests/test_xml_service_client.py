@@ -21,7 +21,7 @@ def test_parse_service_data():
             </Results>
         </Container>'''  # noqa
 
-    assert ServiceClient._parse_offers(raw_service_data) == [
+    assert ServiceClient._parse_service_offers(raw_service_data) == [
         Offer(
             type="DP",
             hotelsupplier="You Travel",
@@ -95,7 +95,7 @@ def test_parse_service_data():
 
 def test_parse_service_data_failed():
     with pytest.raises(ServiceClientError):
-        ServiceClient._parse_offers('<wrong<xml')
+        ServiceClient._parse_service_offers('<wrong<xml')
 
 
 class TestRetrieveOffersFromService:
@@ -121,7 +121,7 @@ class TestRetrieveOffersFromService:
             text='test'
         )
 
-        assert ServiceClient._retrieve_offers_from_service(
+        assert ServiceClient._retrieve_service_offers(
             self.search_context
         ) == 'test'
 
@@ -135,4 +135,4 @@ class TestRetrieveOffersFromService:
         )
 
         with pytest.raises(ServiceClientError):
-            ServiceClient._retrieve_offers_from_service(self.search_context)
+            ServiceClient._retrieve_service_offers(self.search_context)
