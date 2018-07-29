@@ -109,7 +109,11 @@ class ServiceClient:
                 offer[decimal_field] = Decimal(offer[decimal_field])
             return offer
 
-        offers = xmltodict.parse(data)['Container']['Results']['Offer']
+        try:
+            offers = xmltodict.parse(data)['Container']['Results']['Offer']
+        # TODO narrow down except here or log the original error message
+        except:  # noqa
+            raise ServiceClientError()
         return [
             Offer(
                 **parse_types(

@@ -93,6 +93,11 @@ def test_parse_service_data():
     ]
 
 
+def test_parse_service_data_failed():
+    with pytest.raises(ServiceClientError):
+        ServiceClient._parse_offers('<wrong<xml')
+
+
 class TestRetrieveOffersFromService:
     search_context = SearchContext(
         departure_codes=['LGW', 'STN', 'LHR', 'LCY', 'SEN', 'LTN'],
@@ -110,9 +115,9 @@ class TestRetrieveOffersFromService:
     def test_retrieve_holiday_from_service_successful(self, requests_mock):
         requests_mock.get(
             'http://87.102.127.86:8100/search/searchoffers.dll?page=SEARCH'
-            '&platform=WEB&depart=LGW%7CSTN%7CLHR%7CLCY%7CSEN%7CLTN&countryid=1'
-            '&regionid=4&areaid=9&resortid=0&depdate=15%2F08%2F2018&flex=0'
-            '&adults=2&children=0&duration=7',
+            '&platform=WEB&depart=LGW%7CSTN%7CLHR%7CLCY%7CSEN%7CLTN'
+            '&countryid=1&regionid=4&areaid=9&resortid=0'
+            '&depdate=15%2F08%2F2018&flex=0&adults=2&children=0&duration=7',
             text='test'
         )
 
@@ -123,9 +128,9 @@ class TestRetrieveOffersFromService:
     def test_retrieve_holiday_from_service_failed(self, requests_mock):
         requests_mock.get(
             'http://87.102.127.86:8100/search/searchoffers.dll?page=SEARCH'
-            '&platform=WEB&depart=LGW%7CSTN%7CLHR%7CLCY%7CSEN%7CLTN&countryid=1'
-            '&regionid=4&areaid=9&resortid=0&depdate=15%2F08%2F2018&flex=0'
-            '&adults=2&children=0&duration=7',
+            '&platform=WEB&depart=LGW%7CSTN%7CLHR%7CLCY%7CSEN%7CLTN'
+            '&countryid=1&regionid=4&areaid=9&resortid=0'
+            '&depdate=15%2F08%2F2018&flex=0&adults=2&children=0&duration=7',
             status_code=500
         )
 
