@@ -6,5 +6,5 @@ services:
       context: .
       dockerfile: ./compose/Dockerfile_test
     command:
-      bash -c "pytest --cov-config=../coveragerc.ini --cov=."
+      bash -c "python -m pytest --cov-config=../coveragerc.ini --cov=. -vv && flake8"
 
