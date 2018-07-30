@@ -22,19 +22,19 @@ def test_holiday_offers_endpoint_get_only(client):
         generate_offer(
             departure_time=time(hour=12, minute=0),
             return_time=time(hour=13, minute=0),
-            price=1,
+            price='1',
             star_rating=4,
         ),
         generate_offer(
             departure_time=time(hour=14, minute=0),
             return_time=time(hour=15, minute=0),
-            price=2,
+            price='2',
             star_rating=5,
         ),
         generate_offer(
             departure_time=time(hour=16, minute=0),
             return_time=time(hour=17, minute=0),
-            price=3,
+            price='3',
             star_rating=6,
         ),
     ]

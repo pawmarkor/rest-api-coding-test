@@ -11,31 +11,16 @@ import requests
 from constants import DATE_FORMAT, DATETIME_FORMAT
 
 
+# TODO shall we read also unused fields?
 @dataclass
 class Offer:
-    type: str
-    hotelsupplier: str
-    flightsuppler: str
-    depaptcode: str
-    depaptname: str
-    arraptcode: str
-    arraptname: str
     outbounddep: datetime
-    outboundarr: datetime
     outboundfltnum: str
     inbounddep: datetime
     inboundarr: datetime
     inboundfltnum: str
-    duration: int
     hotelname: str
-    resortname: str
-    roomtype: str
-    boardbasis: str
     starrating: int
-    ourhtlid: int
-    brochurecode: str
-    hotelnetprice: Decimal
-    flightnetprice: Decimal
     sellprice: Decimal
 
 
@@ -58,6 +43,7 @@ class ServiceClientError(Exception):
 
 
 class ServiceClient:
+    # TODO move to config file
     API_URL = 'http://87.102.127.86:8100/search/searchoffers.dll'
 
     @classmethod
@@ -105,11 +91,14 @@ class ServiceClient:
                 offer[int_field] = int(offer[int_field])
             for decimal_field in typed_fields[Decimal]:
                 offer[decimal_field] = Decimal(offer[decimal_field])
-            return offer
+            return {
+                k: offer[k] for k in Offer.__annotations__.keys()
+            }
 
         try:
             offers = xmltodict.parse(data)['Container']['Results']['Offer']
         # TODO narrow down except here or log the original error message
+        # TODO what when one offer is invalid/missing required field?
         except:  # noqa
             raise ServiceClientError()
         return [

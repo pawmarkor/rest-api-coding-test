@@ -14,19 +14,9 @@ def generate_offer(
         star_rating
 ):
     return Offer(
-        type="DP",
-        hotelsupplier="Hotel Beds",
-        flightsuppler="Norwegian Fly / Easyjet",
-        depaptcode="LGW",
-        depaptname="London, Gatwick",
-        arraptcode="TFS",
-        arraptname="Tenerife, Sur Int.(Reina Sofia",
         outbounddep=datetime(
             year=2018, month=8, day=15,
             hour=departure_time.hour, minute=departure_time.minute
-        ),
-        outboundarr=datetime(
-            year=2018, month=8, day=16, hour=0, minute=25
         ),
         outboundfltnum="D86405",
         inbounddep=datetime(
@@ -37,16 +27,8 @@ def generate_offer(
             year=2018, month=8, day=22, hour=16, minute=55
         ),
         inboundfltnum="EZY8704",
-        duration=7,
         hotelname="Globales Acuario",
-        resortname="Puerto De La Cruz",
-        roomtype="Enquire",
-        boardbasis="RO",
         starrating=star_rating,
-        ourhtlid=2882,
-        brochurecode="HBED-119",
-        hotelnetprice=Decimal("83.00"),
-        flightnetprice=Decimal("360.00"),
         sellprice=Decimal(price)
     )
 
@@ -76,25 +58,25 @@ def test_filter(
         generate_offer(
             departure_time=time(hour=12, minute=0),
             return_time=time(hour=12, minute=0),
-            price=1,
+            price='1',
             star_rating=1,
         ),
         generate_offer(
             departure_time=time(hour=13, minute=0),
             return_time=time(hour=13, minute=0),
-            price=2,
+            price='2',
             star_rating=2,
         ),
         generate_offer(
             departure_time=time(hour=14, minute=0),
             return_time=time(hour=14, minute=0),
-            price=3,
+            price='3',
             star_rating=3,
         ),
         generate_offer(
             departure_time=time(hour=15, minute=0),
             return_time=time(hour=15, minute=0),
-            price=4,
+            price='4',
             star_rating=4,
         ),
     ]
