@@ -51,6 +51,7 @@ def generate_offer(
     )
 
 
+# TODO add more tests
 @pytest.mark.parametrize(
     'earliest_departure_time,earliest_return_time,'
     'max_price,min_price,star_rating,expected_length',
