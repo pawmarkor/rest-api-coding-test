@@ -8,6 +8,8 @@ from typing import List
 import xmltodict
 import requests
 
+from constants import DATE_FORMAT, DATETIME_FORMAT
+
 
 @dataclass
 class Offer:
@@ -56,8 +58,6 @@ class ServiceClientError(Exception):
 
 
 class ServiceClient:
-    DATE_FORMAT = '%d/%m/%Y'
-    DATETIME_FORMAT = f'{DATE_FORMAT} %H:%M'
     API_URL = 'http://87.102.127.86:8100/search/searchoffers.dll'
 
     @classmethod
@@ -77,9 +77,7 @@ class ServiceClient:
                 'regionid': search_context.region_id,
                 'areaid': search_context.area_id,
                 'resortid': search_context.resort_id,
-                'depdate': search_context.departure_date.strftime(
-                    cls.DATE_FORMAT
-                ),
+                'depdate': search_context.departure_date.strftime(DATE_FORMAT),
                 'flex': 1 if search_context.flex else 0,
                 'adults': search_context.number_of_adults,
                 'children': search_context.number_of_children,
@@ -101,7 +99,7 @@ class ServiceClient:
             for datetime_field in typed_fields[datetime]:
                 offer[datetime_field] = datetime.strptime(
                     offer[datetime_field],
-                    cls.DATETIME_FORMAT,
+                    DATETIME_FORMAT,
                 )
             for int_field in typed_fields[int]:
                 offer[int_field] = int(offer[int_field])

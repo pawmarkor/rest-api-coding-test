@@ -1,0 +1,2 @@
+DATE_FORMAT = '%d/%m/%Y'
+DATETIME_FORMAT = f'{DATE_FORMAT} %H:%M'
