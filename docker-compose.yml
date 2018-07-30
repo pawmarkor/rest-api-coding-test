@@ -7,4 +7,12 @@ services:
       dockerfile: ./compose/Dockerfile_test
     command:
       bash -c "python -m pytest --cov-config=../coveragerc.ini --cov=. -vv && flake8"
+  app:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile_app
+    ports:
+      - "5000:5000"
+    command:
+      bash -c "flask run --host=0.0.0.0"
 
