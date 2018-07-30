@@ -34,4 +34,5 @@ class HolidayOffers(Resource):
                 )
             }
         except ServiceClientError:
+            # TODO add test for this
             abort(503)
