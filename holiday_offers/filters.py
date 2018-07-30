@@ -21,10 +21,12 @@ def filter_offers(
     if star_rating:
         filters.append(lambda offer: offer.starrating >= 3)
     if earliest_departure_time:
+        # TODO do I use correct field here?
         filters.append(
             lambda offer: offer.outbounddep.time() >= earliest_departure_time
         )
     if earliest_return_time:
+        # TODO do I use correct field here?
         filters.append(
             lambda offer: offer.inbounddep.time() >= earliest_return_time
         )
