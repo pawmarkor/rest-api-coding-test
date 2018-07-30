@@ -98,7 +98,6 @@ class ServiceClient:
         try:
             offers = xmltodict.parse(data)['Container']['Results']['Offer']
         # TODO narrow down except here or log the original error message
-        # TODO what when one offer is invalid/missing required field?
         except:  # noqa
             raise ServiceClientError()
         parsed_offers = []
@@ -116,6 +115,6 @@ class ServiceClient:
                     )
                 )
             except KeyError:
-                # some offers have missing fields
+                # TODO skip offer when missing required field
                 pass
         return parsed_offers
