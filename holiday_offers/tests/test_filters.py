@@ -51,13 +51,17 @@ def generate_offer(
     )
 
 
-# TODO add more tests
 @pytest.mark.parametrize(
     'earliest_departure_time,earliest_return_time,'
-    'max_price,min_price,star_rating,expected_length',
+    'max_price,min_price,star_rating,expected_idx',
     [
-        (None, None, None, None, None, 1),
-        (None, None, None, 2, None, 0),
+        (None, None, None, None, None, (0, 1, 2, 3)),
+        (time(hour=14, minute=0), None, None, None, None, (2, 3)),
+        (None, time(hour=14, minute=0), None, None, None, (2, 3)),
+        (None, None, 2, None, None, (0, 1)),
+        (None, None, None, 2, None, (1, 2, 3)),
+        (None, None, None, None, True, (2, 3)),
+        (None, None, 3, 2, True, (2,))
     ]
 )
 def test_filter(
@@ -66,7 +70,7 @@ def test_filter(
         max_price,
         min_price,
         star_rating,
-        expected_length
+        expected_idx,
 ):
     offers = [
         generate_offer(
@@ -74,10 +78,28 @@ def test_filter(
             return_time=time(hour=12, minute=0),
             price=1,
             star_rating=1,
-        )
+        ),
+        generate_offer(
+            departure_time=time(hour=13, minute=0),
+            return_time=time(hour=13, minute=0),
+            price=2,
+            star_rating=2,
+        ),
+        generate_offer(
+            departure_time=time(hour=14, minute=0),
+            return_time=time(hour=14, minute=0),
+            price=3,
+            star_rating=3,
+        ),
+        generate_offer(
+            departure_time=time(hour=15, minute=0),
+            return_time=time(hour=15, minute=0),
+            price=4,
+            star_rating=4,
+        ),
     ]
-    assert len(
-        filter_offers(
+    filtered_offers_idx = set(
+        offers.index(filtered_offer) for filtered_offer in filter_offers(
             offers,
             earliest_departure_time,
             earliest_return_time,
@@ -85,4 +107,6 @@ def test_filter(
             min_price,
             star_rating
         )
-    ) == expected_length
+    )
+
+    assert filtered_offers_idx == set(expected_idx)
