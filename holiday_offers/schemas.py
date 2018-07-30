@@ -28,11 +28,13 @@ holiday_offer_schema = {
 class SummaryField(fields.Raw):
     def format(self, offers: List[Offer]):
         offer_prices = [offer.sellprice for offer in offers]
-        return {
-            'most_expensive_price': max(offer_prices),
-            'cheapest_price': min(offer_prices),
-            'average_price': sum(offer_prices) / len(offers),
-        }
+        # TODO what to return in summary in case of no response?
+        if offers:
+            return {
+                'most_expensive_price': max(offer_prices),
+                'cheapest_price': min(offer_prices),
+                'average_price': sum(offer_prices) / len(offers),
+            }
 
 
 holiday_offers_schema = {
