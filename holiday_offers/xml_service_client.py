@@ -101,14 +101,21 @@ class ServiceClient:
         # TODO what when one offer is invalid/missing required field?
         except:  # noqa
             raise ServiceClientError()
-        return [
-            Offer(
-                **parse_types(
-                    {
-                        k.lstrip('@').lower(): urllib.parse.unquote_plus(v)
-                        for k, v in offer.items()
-                    }
+        parsed_offers = []
+        for offer in offers:
+            try:
+                parsed_offers.append(
+                    Offer(
+                        **parse_types(
+                            {
+                                k.lstrip('@').lower():
+                                    urllib.parse.unquote_plus(v)
+                                for k, v in offer.items()
+                            }
+                        )
+                    )
                 )
-            )
-            for offer in offers
-        ]
+            except KeyError:
+                # some offers have missing fields
+                pass
+        return parsed_offers
