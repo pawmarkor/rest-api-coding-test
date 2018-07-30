@@ -33,7 +33,7 @@ class SummaryField(fields.Raw):
             return {
                 'most_expensive_price': max(offer_prices),
                 'cheapest_price': min(offer_prices),
-                'average_price': sum(offer_prices) / len(offers),
+                'average_price': round(sum(offer_prices) / len(offers), 2),
             }
 
 
