@@ -23,11 +23,15 @@ class Offer:
     starrating: int
     sellprice: Decimal
 
+offer_typed_fields = defaultdict(list)
+for field, field_type in Offer.__annotations__.items():
+    offer_typed_fields[field_type].append(field)
+
 
 @dataclass
 class SearchContext:
-    departure_codes: List[str]
     country_id: int
+    departure_codes: List[str]
     region_id: int
     area_id: int
     resort_id: int
@@ -79,17 +83,14 @@ class ServiceClient:
     @classmethod
     def _parse_service_offers(cls, data: dict):
         def parse_types(offer):
-            typed_fields = defaultdict(list)
-            for field, field_type in Offer.__annotations__.items():
-                typed_fields[field_type].append(field)
-            for datetime_field in typed_fields[datetime]:
+            for datetime_field in offer_typed_fields[datetime]:
                 offer[datetime_field] = datetime.strptime(
                     offer[datetime_field],
                     DATETIME_FORMAT,
                 )
-            for int_field in typed_fields[int]:
+            for int_field in offer_typed_fields[int]:
                 offer[int_field] = int(offer[int_field])
-            for decimal_field in typed_fields[Decimal]:
+            for decimal_field in offer_typed_fields[Decimal]:
                 offer[decimal_field] = Decimal(offer[decimal_field])
             return {
                 k: offer[k] for k in Offer.__annotations__.keys()
