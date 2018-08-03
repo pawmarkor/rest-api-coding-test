@@ -23,6 +23,7 @@ class Offer:
     starrating: int
     sellprice: Decimal
 
+
 offer_typed_fields = defaultdict(list)
 for field, field_type in Offer.__annotations__.items():
     offer_typed_fields[field_type].append(field)
