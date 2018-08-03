@@ -12,7 +12,7 @@ def filter_offers(
         max_price: Optional[Decimal] = None,
         min_price: Optional[Decimal] = None,
         star_rating: Optional[bool] = False,
-):
+) -> List[Offer]:
     filters = []
     if max_price is not None:
         filters.append(lambda offer: offer.sellprice <= max_price)

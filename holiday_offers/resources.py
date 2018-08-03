@@ -18,7 +18,7 @@ from xml_service_client import (
 from constants import TIME_FORMAT
 
 
-def time_builder(time_string):
+def time_builder(time_string: str) -> datetime.time:
     return datetime.strptime(time_string, TIME_FORMAT).time()
 
 

@@ -10,7 +10,7 @@ from xml_service_client import Offer
 
 
 class DateTime(fields.Raw):
-    def format(self, datetime_value: datetime):
+    def format(self, datetime_value: datetime) -> str:
         return datetime_value.strftime(DATETIME_FORMAT)
 
 
@@ -26,7 +26,7 @@ holiday_offer_schema = {
 
 
 class SummaryField(fields.Raw):
-    def format(self, offers: List[Offer]):
+    def format(self, offers: List[Offer]) -> dict:
         offer_prices = [offer.sellprice for offer in offers]
         # TODO what to return in summary in case of no response?
         if offers:
